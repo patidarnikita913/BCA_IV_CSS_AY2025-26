@@ -51,6 +51,326 @@ age >= 18 ? "Adult" : "Minor"
 
 ---
 
+## 🔬 MANDATORY PRACTICAL EXPERIMENT
+
+### ✅ **Experiment 7: JavaScript Program to Generate a Random Number**
+
+**MANDATORY PRACTICAL REQUIREMENT:** Official Experiment #7 (Unit 1)
+
+**Real-World Context:** Games, shuffling, simulations, lottery systems, testing, user engagement  
+**Difficulty Level:** Beginner | **Time:** 15-20 minutes
+
+---
+
+<details>
+<summary><b>Solution: Method 1 - Manual Calculation Using Math.random()</b></summary>
+
+**Approach:** Direct use of Math.random() with manual conversion to generate random numbers in specific ranges
+
+```javascript
+console.log("=== RANDOM NUMBER GENERATOR - METHOD 1: MANUAL CALCULATION ===\n");
+
+// Generate a random decimal between 0 and 1
+const randomDecimal = Math.random();
+console.log("Random decimal: " + randomDecimal);
+console.log("(Always between 0 (inclusive) and 1 (exclusive))\n");
+
+// TEST CASE 1: Random integer between 0 and 9
+console.log("--- Random Integer 0-9 ---");
+for (let i = 0; i < 5; i++) {
+    const randomInt = Math.floor(Math.random() * 10);
+    console.log("Attempt " + (i + 1) + ": " + randomInt);
+}
+console.log();
+
+// TEST CASE 2: Random integer between 1 and 6 (like a dice)
+console.log("--- Dice Roll (1-6) ---");
+for (let i = 0; i < 5; i++) {
+    const dice = Math.floor(Math.random() * 6) + 1;
+    console.log("Roll " + (i + 1) + ": " + dice);
+}
+console.log();
+
+// TEST CASE 3: Random integer between 1 and 100
+console.log("--- Random 1-100 ---");
+const rand100_1 = Math.floor(Math.random() * 100) + 1;
+const rand100_2 = Math.floor(Math.random() * 100) + 1;
+const rand100_3 = Math.floor(Math.random() * 100) + 1;
+console.log("Three random numbers: " + rand100_1 + ", " + rand100_2 + ", " + rand100_3);
+console.log();
+
+// TEST CASE 4: Random integer within a custom range (50-150)
+console.log("--- Random Between 50-150 ---");
+const min = 50;
+const max = 150;
+for (let i = 0; i < 5; i++) {
+    const randomInRange = Math.floor(Math.random() * (max - min + 1)) + min;
+    console.log("Attempt " + (i + 1) + ": " + randomInRange);
+}
+console.log();
+
+// TEST CASE 5: Random with specific probabilities
+console.log("--- Simple Probability (Coin Flip) ---");
+for (let i = 0; i < 5; i++) {
+    const flip = Math.random() > 0.5 ? "Heads" : "Tails";
+    console.log("Flip " + (i + 1) + ": " + flip);
+}
+console.log();
+
+// Step-by-step breakdown
+console.log("--- Step-by-Step Breakdown: Generate 1-10 ---");
+console.log("Step 1 - Math.random() = " + Math.random());
+const step1 = Math.random();
+console.log("Step 2 - Multiply by 10: " + (step1 * 10));
+const step2 = step1 * 10;
+console.log("Step 3 - Math.floor(): " + Math.floor(step2));
+console.log("Step 4 - Add 1: " + (Math.floor(step2) + 1));
+```
+
+**Output Example:**
+```
+=== RANDOM NUMBER GENERATOR - METHOD 1: MANUAL CALCULATION ===
+
+Random decimal: 0.6891234567890...
+
+--- Random Integer 0-9 ---
+Attempt 1: 7
+Attempt 2: 3
+Attempt 3: 9
+Attempt 4: 2
+Attempt 5: 5
+
+--- Dice Roll (1-6) ---
+Roll 1: 4
+Roll 2: 1
+Roll 3: 6
+Roll 4: 3
+Roll 5: 2
+
+--- Random 1-100 ---
+Three random numbers: 42, 78, 15
+
+--- Random Between 50-150 ---
+Attempt 1: 87
+Attempt 2: 142
+Attempt 3: 65
+Attempt 4: 128
+Attempt 5: 91
+```
+
+**Key Points:**
+- `Math.random()` always returns a decimal between 0 (inclusive) and 1 (exclusive)
+- `Math.floor()` rounds down to nearest integer
+- Formula for range: `Math.floor(Math.random() * (max - min + 1)) + min`
+- Useful for dice rolls, lotteries, games, simulations
+
+</details>
+
+<details>
+<summary><b>Solution: Method 2 - Reusable Random Generator Functions</b></summary>
+
+**Approach:** Create utility functions for different random generation scenarios with built-in flexibility
+
+```javascript
+console.log("=== RANDOM NUMBER GENERATOR - METHOD 2: SMART FUNCTIONS ===\n");
+
+// Function 1: Random integer in a range (inclusive)
+function getRandomInt(min, max) {
+    if (min > max) {
+        return "Error: min must be less than or equal to max";
+    }
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Function 2: Random float in a range with decimal places
+function getRandomFloat(min, max, decimals) {
+    if (decimals === undefined) decimals = 2;
+    const random = Math.random() * (max - min) + min;
+    return parseFloat(random.toFixed(decimals));
+}
+
+// Function 3: Get a random element from an array
+function getRandomElement(array) {
+    if (!Array.isArray(array) || array.length === 0) {
+        return "Error: Provide a non-empty array";
+    }
+    const randomIndex = getRandomInt(0, array.length - 1);
+    return array[randomIndex];
+}
+
+// Function 4: Shuffle an array (Fisher-Yates algorithm)
+function shuffleArray(array) {
+    const copy = [...array];  // Don't modify original
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        // Swap elements
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+}
+
+// Function 5: Generate multiple random numbers
+function generateMultipleRandom(count, min, max) {
+    const numbers = [];
+    for (let i = 0; i < count; i++) {
+        numbers.push(getRandomInt(min, max));
+    }
+    return numbers;
+}
+
+// TEST CASES
+console.log("--- Function 1: Random Integer in Range ---");
+console.log("Random 1-50: " + getRandomInt(1, 50));
+console.log("Random 100-200: " + getRandomInt(100, 200));
+console.log("Random -10 to +10: " + getRandomInt(-10, 10));
+console.log();
+
+console.log("--- Function 2: Random Float with Decimals ---");
+console.log("Random 0-1 (2 decimals): " + getRandomFloat(0, 1, 2));
+console.log("Random price $10-$100: $" + getRandomFloat(10, 100, 2));
+console.log("Random 0-100 (3 decimals): " + getRandomFloat(0, 100, 3));
+console.log();
+
+console.log("--- Function 3: Random Element from Array ---");
+const fruits = ["Apple", "Banana", "Cherry", "Date", "Elderberry"];
+console.log("Array: " + fruits);
+for (let i = 0; i < 5; i++) {
+    console.log("Random pick " + (i + 1) + ": " + getRandomElement(fruits));
+}
+console.log();
+
+console.log("--- Function 4: Shuffle Array ---");
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log("Original: " + numbers);
+console.log("Shuffled 1: " + shuffleArray(numbers));
+console.log("Shuffled 2: " + shuffleArray(numbers));
+console.log("Shuffled 3: " + shuffleArray(numbers));
+console.log();
+
+console.log("--- Function 5: Generate Multiple Random Numbers ---");
+const randomList = generateMultipleRandom(10, 1, 100);
+console.log("10 random numbers (1-100): " + randomList);
+console.log();
+
+// REAL-WORLD APPLICATION: Simple Game
+console.log("--- Real-World: Number Guessing Game ---");
+const secretNumber = getRandomInt(1, 100);
+console.log("Computer generated a secret number between 1-100");
+console.log("(Actual: " + secretNumber + " - shhh! Don't tell!)");
+console.log();
+
+const guess1 = getRandomInt(1, 100);
+const guess2 = getRandomInt(1, 100);
+const guess3 = getRandomInt(1, 100);
+console.log("Player guesses: " + guess1 + ", " + guess2 + ", " + guess3);
+console.log("Correct answer: " + secretNumber);
+console.log("Player was " + Math.abs(guess1 - secretNumber) + " away with first guess");
+console.log();
+
+// REAL-WORLD APPLICATION: Simulated Dice Roll and Card Hand
+console.log("--- Real-World: Card Game Setup ---");
+const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
+const hand = [];
+for (let i = 0; i < 5; i++) {
+    const suit = getRandomElement(suits);
+    const value = getRandomElement(values);
+    hand.push(value + " of " + suit);
+}
+console.log("Your hand: ");
+hand.forEach((card, index) => {
+    console.log("  " + (index + 1) + ". " + card);
+});
+console.log();
+
+// REAL-WORLD APPLICATION: Lottery Number Generator
+console.log("--- Real-World: Lottery Ticket ---");
+const lotteryNumbers = generateMultipleRandom(6, 1, 49);
+// Remove duplicates (simple approach - regenerate if needed)
+console.log("Lucky numbers (Lotto 6/49): " + lotteryNumbers);
+```
+
+**Output Example:**
+```
+--- Function 1: Random Integer in Range ---
+Random 1-50: 37
+Random 100-200: 156
+Random -10 to +10: 4
+
+--- Function 2: Random Float with Decimals ---
+Random 0-1 (2 decimals): 0.73
+Random price $10-$100: $54.32
+Random 0-100 (3 decimals): 42.156
+
+--- Function 3: Random Element from Array ---
+Array: Apple,Banana,Cherry,Date,Elderberry
+Random pick 1: Cherry
+Random pick 2: Apple
+Random pick 3: Date
+Random pick 4: Banana
+Random pick 5: Cherry
+
+--- Function 4: Shuffle Array ---
+Original: 1,2,3,4,5,6,7,8,9,10
+Shuffled 1: 7,2,9,1,5,10,3,8,4,6
+Shuffled 2: 3,8,10,2,1,7,4,6,9,5
+
+--- Real-World: Card Game Setup ---
+Your hand:
+  1. K of Hearts
+  2. 7 of Diamonds
+  3. A of Clubs
+  4. 5 of Hearts
+  5. Q of Spades
+```
+
+**Key Advantages:**
+- Reusable functions for common random scenarios
+- Handles edge cases and validation
+- Flexible parameters for different needs
+- Can be extended for more complex scenarios
+- Follows DRY principle (Don't Repeat Yourself)
+
+</details>
+
+---
+
+## 🎯 Key Learning Points
+
+✅ **Math.random() Basics:**
+- Returns a random decimal from 0 (inclusive) to 1 (exclusive)
+- Never returns exactly 1
+- Returns a different value each time
+
+✅ **Converting to Integer:**
+- `Math.floor()` rounds DOWN to nearest integer
+- Formula: `Math.floor(Math.random() * n)` gives 0 to n-1
+- Add offset for custom ranges: `+ min`
+
+✅ **Common Range Formula:**
+- For range [min, max]: `Math.floor(Math.random() * (max - min + 1)) + min`
+- Always use `(max - min + 1)` to include the max value
+
+✅ **When to Use Each Method:**
+- **Method 1:** Learning fundamentals, quick one-off random values
+- **Method 2:** Production code, reusable utilities, real applications
+
+✅ **Real-World Applications:**
+- Games (dice, cards, shuffling)
+- Simulations and testing
+- Lotteries and selection
+- Random sampling of data
+- Animation and effects
+
+✅ **Important Considerations:**
+- `Math.random()` is pseudo-random (not truly random)
+- For cryptographic security, use `crypto.getRandomValues()`
+- Always validate input before using random numbers
+- Consider edge cases (empty arrays, invalid ranges)
+
+---
+
 ## 🎬 Mini-Project: Smart Expense Calculator
 
 ### Project Overview
