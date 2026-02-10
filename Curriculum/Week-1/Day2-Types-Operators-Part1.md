@@ -199,34 +199,200 @@ console.log(shift);  // 2 (employee 5 gets Night shift)
 
 ---
 
-## 💻 Practical Session (1h 15min)
+## � MANDATORY PRACTICAL EXPERIMENTS
 
-### Exercise 2.1: Basic Arithmetic
+### ✅ **Experiment 3: JavaScript Program to Find the Square Root**
 
-**Goal:** Master arithmetic operations
+**MANDATORY PRACTICAL REQUIREMENT:** Official Experiment #3 (Unit 1)  
+Calculate the square root of a given number using mathematical operations.
+
+<details>
+<summary><b>Solution: Method 1 - Using Exponent Operator</b></summary>
 
 ```javascript
-// Simple calculations
-console.log(10 + 5);      // 15
-console.log(10 - 5);      // 5
-console.log(10 * 5);      // 50
-console.log(10 / 5);      // 2
-console.log(17 % 5);      // 2
-console.log(2 ** 3);      // 8
+/*
+ * Experiment 3: Find Square Root (Using exponentiation)
+ * Calculate square root with manual power calculation
+ */
 
-// Order of operations
-console.log(2 + 3 * 4);   // ? (predict first!)
-console.log((2 + 3) * 4); // ?
-console.log(100 / 4 + 5); // ?
+// Method: x^(1/2) = √x
+const number = 16;
+const squareRoot = number ** 0.5;
 
-// Real problem: Calculate compound interest
-const principal = 10000;  // ₹
-const rate = 5;           // 5% per year
-const years = 2;
+console.log("Number: " + number);
+console.log("Square Root: " + squareRoot);
 
-const amount = principal * (1 + rate / 100) ** years;
-console.log("Amount: ₹" + amount);
+// TEST CASES
+console.log("\n--- Test Case 1: Perfect squares ---");
+console.log("√4 = " + (4 ** 0.5));      // 2
+console.log("√9 = " + (9 ** 0.5));      // 3
+console.log("√25 = " + (25 ** 0.5));    // 5
+console.log("√100 = " + (100 ** 0.5));  // 10
+
+console.log("\n--- Test Case 2: Non-perfect squares ---");
+console.log("√2 = " + (2 ** 0.5).toFixed(4));       // 1.4142
+console.log("√10 = " + (10 ** 0.5).toFixed(4));     // 3.1623
+console.log("√50 = " + (50 ** 0.5).toFixed(4));     // 7.0711
+
+console.log("\n--- Test Case 3: Edge cases ---");
+console.log("√0 = " + (0 ** 0.5));      // 0
+console.log("√1 = " + (1 ** 0.5));      //1
+console.log("√0.25 = " + (0.25 ** 0.5)); // 0.5
 ```
+
+</details>
+
+<details>
+<summary><b>Solution: Method 2 - Using Math.sqrt()</b></summary>
+
+```javascript
+/*
+ * Experiment 3: Find Square Root (Using Math object - Smart approach)
+ * Leverage JavaScript's built-in Math library
+ */
+
+const number = 16;
+const squareRoot = Math.sqrt(number);
+
+console.log("Number: " + number);
+console.log("Square Root: " + squareRoot);
+
+// TEST CASES
+console.log("\n--- Test Case 1: Perfect squares ---");
+console.log("√4 = " + Math.sqrt(4));       // 2
+console.log("√9 = " + Math.sqrt(9));       // 3
+console.log("√25 = " + Math.sqrt(25));     // 5
+console.log("√100 = " + Math.sqrt(100));   // 10
+console.log("√144 = " + Math.sqrt(144));   // 12
+
+console.log("\n--- Test Case 2: Non-perfect squares ---");
+console.log("√2 = " + Math.sqrt(2).toFixed(4));    // 1.4142
+console.log("√10 = " + Math.sqrt(10).toFixed(4));  // 3.1623
+console.log("√7 = " + Math.sqrt(7).toFixed(4));    // 2.6458
+
+console.log("\n--- Test Case 3: Real-world application ---");
+// Pythagorean theorem: c = √(a² + b²)
+const sideA = 3;
+const sideB = 4;
+const hypotenuse = Math.sqrt(sideA * sideA + sideB * sideB);
+console.log("Right triangle with sides " + sideA + " and " + sideB);
+console.log("Hypotenuse: " + hypotenuse);  // 5
+```
+
+</details>
+
+**Key Learning Points:**
+- Exponent `** 0.5` equals square root (Mathematical approach)
+- `Math.sqrt()` is cleaner and more efficient
+- `toFixed(n)` rounds to n decimal places
+- Method 2 is preferred for accuracy and readability
+
+---
+
+### ✅ **Experiment 4: JavaScript Program to Calculate the Area of a Triangle**
+
+**MANDATORY PRACTICAL REQUIREMENT:** Official Experiment #4 (Unit 1)  
+Calculate triangle area using the formula: Area = (base × height) / 2
+
+<details>
+<summary><b>Solution: Method 1 - Base × Height Formula</b></summary>
+
+```javascript
+/*
+ * Experiment 4: Calculate Triangle Area (Standard formula)
+ * Using Area = (base × height) / 2
+ */
+
+const base = 10;
+const height = 5;
+
+const area = (base * height) / 2;
+
+console.log("Base: " + base);
+console.log("Height: " + height);
+console.log("Area: " + area);
+
+// TEST CASES
+console.log("\n--- Test Case 1: Common triangles ---");
+console.log("Triangle 1 - Base: 8, Height: 6 → Area: " + ((8 * 6) / 2));
+console.log("Triangle 2 - Base: 12, Height: 8 → Area: " + ((12 * 8) / 2));
+console.log("Triangle 3 - Base: 15, Height: 10 → Area: " + ((15 * 10) / 2));
+
+console.log("\n--- Test Case 2: Decimal measurements ---");
+const b1 = 7.5;
+const h1 = 4.8;
+console.log("Base: " + b1 + ", Height: " + h1 + " → Area: " + ((b1 * h1) / 2).toFixed(2));
+
+console.log("\n--- Test Case 3: Real-world scenario ---");
+// Triangular garden
+const gardenBase = 20;    // meters
+const gardenHeight = 15;  // meters
+const gardenArea = (gardenBase * gardenHeight) / 2;
+console.log("Garden area: " + gardenArea + " square meters");
+```
+
+</details>
+
+<details>
+<summary><b>Solution: Method 2 - Heron's Formula (Advanced)</b></summary>
+
+```javascript
+/*
+ * Experiment 4: Calculate Triangle Area (Heron's formula)
+ * Using sides: Area = √(s(s-a)(s-b)(s-c)) where s = (a+b+c)/2
+ */
+
+// Triangle with sides
+const a = 5;
+const b = 6;
+const c = 7;
+
+// Calculate semi-perimeter
+const s = (a + b + c) / 2;
+
+// Apply Heron's formula
+const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+
+console.log("Triangle sides: " + a + ", " + b + ", " + c);
+console.log("Semi-perimeter: " + s);
+console.log("Area: " + area.toFixed(2));
+
+// TEST CASES
+console.log("\n--- Test Case 1: 3-4-5 right triangle ---");
+const side1 = 3;
+const side2 = 4;
+const side3 = 5;
+const s1 = (side1 + side2 + side3) / 2;
+const area1 = Math.sqrt(s1 * (s1 - side1) * (s1 - side2) * (s1 - side3));
+console.log("Sides: " + side1 + ", " + side2 + ", " + side3);
+console.log("Area: " + area1.toFixed(2));  // 6
+
+console.log("\n--- Test Case 2: Equilateral triangle ---");
+const side = 10;
+const sEq = (side + side + side) / 2;
+const areaEq = Math.sqrt(sEq * (sEq - side) * (sEq - side) * (sEq - side));
+console.log("Equilateral triangle with side " + side);
+console.log("Area: " + areaEq.toFixed(2));
+
+console.log("\n--- Test Case 3: Scalene triangle ---");
+const side4 = 8, side5 = 9, side6 = 10;
+const s3 = (side4 + side5 + side6) / 2;
+const area3 = Math.sqrt(s3 * (s3 - side4) * (s3 - side5) * (s3 - side6));
+console.log("Area: " + area3.toFixed(2));
+```
+
+</details>
+
+**Key Learning Points:**
+- Simple formula: (base × height) / 2 for any triangle (Method 1)
+- Heron's formula: Works when you only know the three sides (Method 2)
+- Both methods give the same result for valid triangles
+- Method 1 is simpler when you have base and height
+- Method 2 is useful for complex geometry problems
+
+---
+
+## 💻 Practical Exercises
 
 ### Exercise 2.2: Modulo Operator Deep Dive
 
