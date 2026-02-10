@@ -257,6 +257,165 @@ Remove 'apple': banana,cherry
 
 ---
 
+## 🔬 MANDATORY PRACTICAL EXPERIMENTS
+
+### ✅ **Experiment 20: JavaScript Program to Merge Two Arrays and Remove Duplicate Items**
+
+**MANDATORY PRACTICAL REQUIREMENT:** Official Experiment #20 (Unit 4)
+
+Combine two or more arrays and eliminate duplicate values.
+
+<details>
+<summary><b>Solution: Method 1 - Using Loop and Condition Check</b></summary>
+
+```javascript
+/*
+ * Experiment 20: Merge Arrays and Remove Duplicates (Manual approach)
+ * Combine arrays and eliminate duplicates using loop
+ */
+
+function mergeAndRemoveDuplicates(array1, array2) {
+    // Create result array starting with array1
+    const result = [];
+    
+    // Add elements from array1
+    for (let i = 0; i < array1.length; i++) {
+        if (!result.includes(array1[i])) {
+            result.push(array1[i]);
+        }
+    }
+    
+    // Add elements from array2 if not already in result
+    for (let i = 0; i < array2.length; i++) {
+        if (!result.includes(array2[i])) {
+            result.push(array2[i]);
+        }
+    }
+    
+    return result;
+}
+
+function mergeMultipleArrays(...arrays) {
+    const result = [];
+    
+    // Iterate through each array
+    for (let arr of arrays) {
+        // Add each element if not already present
+        for (let item of arr) {
+            if (!result.includes(item)) {
+                result.push(item);
+            }
+        }
+    }
+    
+    return result;
+}
+
+// TEST CASES
+console.log("--- Test Case 1: Merge two numeric arrays ---");
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 5, 6];
+const merged1 = mergeAndRemoveDuplicates(arr1, arr2);
+console.log("Array 1: " + arr1);
+console.log("Array 2: " + arr2);
+console.log("Merged (no dupes): " + merged1);
+
+console.log("\n--- Test Case 2: Merge string arrays ---");
+const fruits1 = ["apple", "banana", "cherry"];
+const fruits2 = ["banana", "date", "apple"];
+const merged2 = mergeAndRemoveDuplicates(fruits1, fruits2);
+console.log("Fruits 1: " + fruits1);
+console.log("Fruits 2: " + fruits2);
+console.log("Merged: " + merged2);
+
+console.log("\n--- Test Case 3: Merge multiple arrays ---");
+const m1 = [1, 2, 3];
+const m2 = [2, 3, 4];
+const m3 = [4, 5, 6];
+const merged3 = mergeMultipleArrays(m1, m2, m3);
+console.log("Array 1: " + m1);
+console.log("Array 2: " + m2);
+console.log("Array 3: " + m3);
+console.log("Merged all: " + merged3);
+```
+
+</details>
+
+<details>
+<summary><b>Solution: Method 2 - Using Set with Spread Operator</b></summary>
+
+```javascript
+/*
+ * Experiment 20: Merge Arrays (Using Set - Smart approach)
+ * Leverages JavaScript Set for automatic duplicate handling
+ */
+
+// Method 2a: Two arrays using Set
+function mergeAndRemoveDuplicates(array1, array2) {
+    // Spread both arrays into a Set, which auto-removes duplicates
+    return [...new Set([...array1, ...array2])];
+}
+
+// Method 2b: Multiple arrays using Set
+function mergeMultipleArrays(...arrays) {
+    // Flatten all arrays, convert to Set, spread back to array
+    const flattened = arrays.reduce((acc, arr) => [...acc, ...arr], []);
+    return [...new Set(flattened)];
+}
+
+// Method 2c: Using concat instead of spread
+function mergeWithConcat(array1, array2) {
+    return [...new Set(array1.concat(array2))];
+}
+
+// TEST CASES
+console.log("--- Test Case 1: Merge numeric arrays ---");
+const arr1 = [1, 2, 3, 4];
+const arr2 = [3, 4, 5, 6];
+const merged1 = mergeAndRemoveDuplicates(arr1, arr2);
+console.log("Array 1: " + arr1);
+console.log("Array 2: " + arr2);
+console.log("Merged (Set method): " + merged1);
+
+console.log("\n--- Test Case 2: Merge string arrays ---");
+const fruits1 = ["apple", "banana", "cherry"];
+const fruits2 = ["banana", "date", "apple"];
+const merged2 = mergeAndRemoveDuplicates(fruits1, fruits2);
+console.log("Fruits 1: " + fruits1);
+console.log("Fruits 2: " + fruits2);
+console.log("Merged: " + merged2);
+
+console.log("\n--- Test Case 3: Merge multiple arrays ---");
+const m1 = [1, 2, 3];
+const m2 = [2, 3, 4];
+const m3 = [4, 5, 6];
+const merged3 = mergeMultipleArrays(m1, m2, m3);
+console.log("Array 1: " + m1);
+console.log("Array 2: " + m2);
+console.log("Array 3: " + m3);
+console.log("Merged all: " + merged3);
+
+console.log("\n--- Test Case 4: Large arrays ---");
+const large1 = Array.from({length: 100}, (_, i) => i % 10);  // 0-9 repeated
+const large2 = Array.from({length: 100}, (_, i) => (i + 5) % 15);  // 5-19 repeated, wrapping
+const mergedLarge = mergeAndRemoveDuplicates(large1, large2);
+console.log("Large array 1 length: " + large1.length);
+console.log("Large array 2 length: " + large2.length);
+console.log("Merged unique count: " + mergedLarge.length);
+console.log("Merged unique values: " + mergedLarge.sort((a, b) => a - b));
+```
+
+</details>
+
+**Key Learning Points:**
+- Set automatically removes duplicates
+- `...new Set(array)` converts Set back to array
+- Method 1 teaches the logic explicitly
+- Method 2 is cleaner and more efficient for large arrays
+- Both preserve insertion order for duplicates
+
+---
+
 ### Experiment 21: Merge Arrays and Remove Duplicates
 
 **Objective:** Combine multiple arrays and eliminate duplicate values
@@ -532,11 +691,188 @@ By rating (high to low):
 
 ---
 
-## 🎯 Experiments 20-22 Summary
+## 🔬 MANDATORY PRACTICAL EXPERIMENTS
+
+### ✅ **Experiment 21: JavaScript Program to Sort Array of Objects by Property Values**
+
+**MANDATORY PRACTICAL REQUIREMENT:** Official Experiment #21 (Unit 4)
+
+Sort an array of objects based on a specific property (numeric or alphabetical).
+
+<details>
+<summary><b>Solution: Method 1 - Manual Comparison Function</b></summary>
+
+```javascript
+/*
+ * Experiment 21: Sort Array of Objects (Manual comparator)
+ * Sort objects by numeric or string properties
+ */
+
+function sortByNumericProperty(array, property, ascending = true) {
+    // Create copy to avoid modifying original
+    const sorted = [];
+    for (let i = 0; i < array.length; i++) {
+        sorted.push(array[i]);
+    }
+    
+    // Manual bubble sort implementation
+    for (let i = 0; i < sorted.length - 1; i++) {
+        for (let j = 0; j < sorted.length - i - 1; j++) {
+            const shouldSwap = ascending 
+                ? sorted[j][property] > sorted[j + 1][property]
+                : sorted[j][property] < sorted[j + 1][property];
+            
+            if (shouldSwap) {
+                // Swap elements
+                const temp = sorted[j];
+                sorted[j] = sorted[j + 1];
+                sorted[j + 1] = temp;
+            }
+        }
+    }
+    
+    return sorted;
+}
+
+function sortByStringProperty(array, property, ascending = true) {
+    const sorted = array.slice();  // Copy array
+    
+    // Custom bubble sort for strings
+    for (let i = 0; i < sorted.length - 1; i++) {
+        for (let j = 0; j < sorted.length - i - 1; j++) {
+            const comparison = sorted[j][property].localeCompare(sorted[j + 1][property]);
+            const shouldSwap = ascending ? comparison > 0 : comparison < 0;
+            
+            if (shouldSwap) {
+                const temp = sorted[j];
+                sorted[j] = sorted[j + 1];
+                sorted[j + 1] = temp;
+            }
+        }
+    }
+    
+    return sorted;
+}
+
+// TEST CASES
+const students = [
+    {name: "Alice", marks: 85, grade: "B"},
+    {name: "Bob", marks: 92, grade: "A"},
+    {name: "Charlie", marks: 78, grade: "C"},
+    {name: "Diana", marks: 92, grade: "A"},
+    {name: "Eve", marks: 88, grade: "B"}
+];
+
+console.log("--- Test Case 1: Sort by marks (ascending) ---");
+const byMarksAsc = sortByNumericProperty(students, "marks", true);
+byMarksAsc.forEach(s => console.log("  " + s.name + " - " + s.marks));
+
+console.log("\n--- Test Case 2: Sort by marks (descending) ---");
+const byMarksDesc = sortByNumericProperty(students, "marks", false);
+byMarksDesc.forEach(s => console.log("  " + s.name + " - " + s.marks));
+
+console.log("\n--- Test Case 3: Sort by name ---");
+const byName = sortByStringProperty(students, "name", true);
+byName.forEach(s => console.log("  " + s.name));
+
+console.log("\n--- Original array unchanged ---");
+console.log("First student: " + students[0].name + " (" + students[0].marks + ")");
+```
+
+</details>
+
+<details>
+<summary><b>Solution: Method 2 - Using JavaScript's sort() with Comparators</b></summary>
+
+```javascript
+/*
+ * Experiment 21: Sort Array of Objects (Using .sort() - Smart approach)
+ * Leveraging JavaScript's built-in sort method
+ */
+
+// Method 2a: Sort by numeric property
+function sortByNumericProperty(array, property, ascending = true) {
+    return [...array].sort((a, b) => {
+        if (ascending) {
+            return a[property] - b[property];
+        } else {
+            return b[property] - a[property];
+        }
+    });
+}
+
+// Method 2b: Sort by string property
+function sortByStringProperty(array, property, ascending = true) {
+    return [...array].sort((a, b) => {
+        const comparison = a[property].localeCompare(b[property]);
+        return ascending ? comparison : -comparison;
+    });
+}
+
+// Method 2c: Sort by multiple properties
+function sortByMultiple(array, sortRules) {
+    return [...array].sort((a, b) => {
+        for (let rule of sortRules) {
+            const comparison = rule.property ? 
+                (a[rule.property] < b[rule.property] ? -1 : 
+                 a[rule.property] > b[rule.property] ? 1 : 0) : 0;
+            
+            if (comparison !== 0) {
+                return rule.ascending ? comparison : -comparison;
+            }
+        }
+        return 0;
+    });
+}
+
+// TEST CASES
+const students = [
+    {name: "Alice", marks: 85, grade: "B"},
+    {name: "Bob", marks: 92, grade: "A"},
+    {name: "Charlie", marks: 78, grade: "C"},
+    {name: "Diana", marks: 92, grade: "A"},
+    {name: "Eve", marks: 88, grade: "B"}
+];
+
+console.log("--- Test Case 1: Sort by marks (ascending) ---");
+const byMarksAsc = sortByNumericProperty(students, "marks", true);
+byMarksAsc.forEach(s => console.log("  " + s.name + " - " + s.marks));
+
+console.log("\n--- Test Case 2: Sort by marks (descending) ---");
+const byMarksDesc = sortByNumericProperty(students, "marks", false);
+byMarksDesc.forEach(s => console.log("  " + s.name + " - " + s.marks));
+
+console.log("\n--- Test Case 3: Sort by name ---");
+const byName = sortByStringProperty(students, "name", true);
+byName.forEach(s => console.log("  " + s.name));
+
+console.log("\n--- Test Case 4: Sort by grade then by marks ---");
+const byGrandThenMarks = sortByMultiple(students, [
+    {property: "grade", ascending: true},
+    {property: "marks", ascending: false}
+]);
+console.log("Sorted by Grade (A-Z), then Marks (High-Low):");
+byGrandThenMarks.forEach(s => console.log("  " + s.grade + " - " + s.name + " (" + s.marks + ")"));
+
+console.log("\n--- Original array unchanged ---");
+console.log("First student: " + students[0].name + " (" + students[0].marks + ")");
+```
+
+</details>
+
+**Key Learning Points:**
+- Method 1 shows the underlying algorithm (bubble sort)
+- Method 2 uses JavaScript's optimized built-in sort
+- Numeric comparison: `a - b` (ascending), `b - a` (descending)
+- String comparison: `localeCompare()` for proper alphabetical sorting
+- Spread operator `[...array]` prevents modifying the original array
+
+---
+
+## 🎯 Experiments Summary
 
 ✅ **Experiment 20:** Remove items from arrays using filter
 ✅ **Experiment 21:** Merge arrays and eliminate duplicates
-✅ **Experiment 22:** Sort objects by properties
 
 ---
 
