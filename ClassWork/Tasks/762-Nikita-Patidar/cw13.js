@@ -26,4 +26,4 @@ function isPalindrome(str){
     return (reversed==cleaned);
 
 }
-console.log("Is Race Car Palindrome ? :", isPalindrome("Race Ca"));
+console.log("Is Race Car Palindrome ? :", isPalindrome("Race Car"));
