@@ -45,6 +45,15 @@ class Person {
 
 ### 2. Understanding ES6 Classes
 
+**A Quick Note on What You're About to Learn:**
+In this section, you'll learn the modern way to write OOP code in JavaScript using `class` syntax (introduced in ES6 / 2015). In the next section (2B), you'll learn about **prototypes**, which is how JavaScript *actually* implements classes behind the scenes. These are not two competing systems — classes are just a friendlier way to write prototypes. Think of it like this:
+- **Class syntax** = What you write (high-level, clean)
+- **Prototype system** = How JavaScript executes it (low-level, the mechanism)
+
+Understanding both will make you a better JavaScript programmer. Let's start with the cleaner class syntax.
+
+---
+
 Before diving into classes, let's define the key terms:
 
 **Class**: A blueprint or template for creating objects. A class defines what properties (data) and methods (behaviors) objects created from it will have. Think of a class as a cookie cutter — it defines the shape, but you use it to create many actual cookies (objects). In JavaScript, classes are created using the `class` keyword.
@@ -107,103 +116,276 @@ console.log(myCar.getDescription());  // Toyota Camry (2023)
 
 ### 2B. Prototypes: What's Under the Hood
 
-JavaScript classes are **syntactic sugar** — a nicer way to write something that already existed. Behind every class is a mechanism called **prototypes**. Understanding prototypes helps you understand how JavaScript objects actually work.
+Before ES6 (released in 2015), JavaScript didn't have the `class` keyword. Instead, developers used **prototypes** to build objects and implement inheritance. Today, ES6 classes are **syntactic sugar** — a nicer, more familiar way to write what was always a prototype-based system underneath.
 
-#### What is a Prototype?
+**This is crucial:** Classes and prototypes are **not two different things**. Classes ARE just a cleaner way to write prototypes. When you use a class, JavaScript converts it into prototype code behind the scenes. To truly understand OOP in JavaScript, you need to understand how prototypes work.
 
-Every JavaScript object has a hidden link to another object called its **prototype**. When you try to access a property or method on an object and it doesn't exist on that object, JavaScript looks at the object's prototype. If it's not there either, it looks at the prototype's prototype, and so on. This chain of lookups is called the **prototype chain**.
+#### The Core Idea: Prototype Chain and Inheritance
+
+Every JavaScript object has a hidden internal link called **`[[Prototype]]`** that points to another object (its **prototype**). When you try to access a property or method on an object:
+
+1. JavaScript first looks for it **on the object itself** (own properties)
+2. If not found, it looks **on the object's prototype**
+3.  If not found there, it looks **on the prototype's prototype**
+4. This continues up the chain until it reaches `null`
+5. If found anywhere in this chain, that value is used; otherwise, `undefined` is returned
+
+**This chain of lookups is the prototype chain — and this is how JavaScript implements inheritance.**
+
+#### Why This Looks Like Inheritance
+
+Look at this pattern:
+- A Blueprint (like a class) defines shared methods
+- Multiple instances share those methods
+- Instances can override methods or add their own properties
+- Methods in the blueprint can access data from each instance using `this`
+
+This is **exactly** what inheritance looks like in languages like Java or Python. JavaScript does it through prototypes instead of traditional class hierarchies, but the concept is identical.
+
+#### Visual Diagram: Prototypes = Inheritance
+
+```
+When you write:
+class Dog {
+    bark() { console.log("Woof!"); }
+}
+const rex = new Dog();
+
+JavaScript creates:
+┌─────────────┐         ┌──────────────┐
+│     rex     │────────▶│ Dog.prototype│
+│ (instance)  │ points  │   bark()     │
+│ name:"Rex"  │  to     │              │
+└─────────────┘         └──────────────┘
+                              │
+                              │ points to
+                              ▼
+                       ┌──────────────┐
+                       │Object.proto  │
+                       │toString()    │
+                       └──────────────┘
+
+So when you call: rex.bark()
+JS searches: rex.bark → not found → Dog.prototype.bark → FOUND!
+When you call: rex.toString()
+JS searches: rex.toString → not found → Dog.prototype.toString → not found
+             → Object.prototype.toString → FOUND!
+```
+
+#### Creating Objects with Prototypes (without class syntax)
+
+Before ES6, developers created objects like this:
 
 ```javascript
-// Create a simple object
-const rabbit = {
-    speak(line) {
-        console.log(`The rabbit says '${line}'`);
-    }
+// Old way: Constructor function
+function Dog(name) {
+    this.name = name;  // Set own properties in constructor
+}
+
+// Add shared methods on the prototype
+Dog.prototype.bark = function() {
+    console.log(this.name + " says Woof!");
 };
 
-// Create another object whose prototype is rabbit
-const whiteRabbit = Object.create(rabbit);
-whiteRabbit.color = "white";
-
-whiteRabbit.speak("I'm late!");  // The rabbit says 'I'm late!'
-// whiteRabbit doesn't have a speak method,
-// but its prototype (rabbit) does, so that one is used.
-
-console.log(whiteRabbit.color);  // "white" — own property
+// Create instances with 'new'
+const rex = new Dog("Rex");
+rex.bark();  // "Rex says Woof!"
 ```
 
-#### Object.create()
+This does exactly the same thing as the class version! But let's see how they compare side-by-side:
 
-`Object.create(proto)` creates a new object with `proto` as its prototype:
+#### Side-by-Side: Class vs Prototype (Same Thing, Different Syntax)
 
-```javascript
-const personProto = {
-    greet() {
-        return "Hello, I'm " + this.name;
-    }
-};
-
-const alice = Object.create(personProto);
-alice.name = "Alice";
-console.log(alice.greet());  // "Hello, I'm Alice"
-
-const bob = Object.create(personProto);
-bob.name = "Bob";
-console.log(bob.greet());    // "Hello, I'm Bob"
-```
-
-#### Object.getPrototypeOf()
-
-You can inspect an object's prototype:
-
-```javascript
-console.log(Object.getPrototypeOf(alice) === personProto);  // true
-
-// Arrays have Array.prototype as their prototype
-const arr = [1, 2, 3];
-console.log(Object.getPrototypeOf(arr) === Array.prototype);  // true
-
-// Array.prototype itself inherits from Object.prototype
-console.log(Object.getPrototypeOf(Array.prototype) === Object.prototype);  // true
-```
-
-#### How Classes Use Prototypes
-
-When you write a `class`, JavaScript puts the methods on the prototype automatically:
-
+**Using ES6 Class (Modern, Cleaner):**
 ```javascript
 class Dog {
     constructor(name) {
-        this.name = name;  // Own property — stored on each instance
+        this.name = name;
     }
+
     bark() {
-        console.log(this.name + " says Woof!");  // On Dog.prototype
+        console.log(this.name + " says Woof!");
     }
 }
 
 const rex = new Dog("Rex");
 rex.bark();  // "Rex says Woof!"
+```
 
-// The bark method is on the prototype, not on rex:
-console.log(rex.hasOwnProperty("name"));  // true  — own property
-console.log(rex.hasOwnProperty("bark"));  // false — not own, it's on prototype
+**Using Prototypes (Old Way, but Functionally Identical):**
+```javascript
+function Dog(name) {
+    this.name = name;  // Constructor code goes here
+}
+
+Dog.prototype.bark = function() {
+    console.log(this.name + " says Woof!");
+};
+
+const rex = new Dog("Rex");
+rex.bark();  // "Rex says Woof!"
+```
+
+Both create exactly the same object structure internally. The class is just syntactic sugar around the prototype pattern.
+
+#### Understanding the Real Structure
+
+When you use `new Dog()`, JavaScript **actually does this:**
+
+```javascript
+// 1. Create a new empty object
+const newInstance = {};
+
+// 2. Set its [[Prototype]] to Dog.prototype
+Object.setPrototypeOf(newInstance, Dog.prototype);
+
+// 3. Call the constructor function with 'this' bound to newInstance
+Dog.call(newInstance, "Rex");  // Sets newInstance.name = "Rex"
+
+// 4. Return the new instance
+// newInstance is now the rex object
+```
+
+This is why:
+- `rex.bark` looks up the chain and finds `Dog.prototype.bark`
+- `this.name` inside `bark()` refers to `rex.name` (because `this` is bound to `rex`)
+- Properties go on the instance, methods go on the prototype
+
+#### Methods on Instance vs Prototype
+
+This is an important distinction:
+
+```javascript
+class Dog {
+    constructor(name) {
+        this.name = name;
+        // If we put a method here:
+        this.bark = function() {
+            console.log(this.name + " says Woof!");
+        };
+    }
+}
+
+const dog1 = new Dog("Rex");
+const dog2 = new Dog("Max");
+
+// PROBLEM: Each instance has its own copy of bark()
+console.log(dog1.bark === dog2.bark);  // false — different functions!
+console.log(dog1.hasOwnProperty("bark"));  // true — it's on the instance
+
+// This wastes memory if you have 1000 dogs. Each has its own copy!
+```
+
+**Better way — put methods on the prototype:**
+
+```javascript
+class Dog {
+    constructor(name) {
+        this.name = name;  // Own property — each instance has its own
+    }
+
+    bark() {
+        console.log(this.name + " says Woof!");  // On Dog.prototype
+    }
+}
+
+const dog1 = new Dog("Rex");
+const dog2 = new Dog("Max");
+
+// GOOD: Both instances share the same bark method
+console.log(dog1.bark === dog2.bark);  // true — same function!
+console.log(dog1.hasOwnProperty("bark"));  // false — it's inherited from prototype
+
+// Memory efficient: One copy of bark() is shared by all instances
+```
+
+#### Object.create() — Creating Inheritance Without Constructor Functions
+
+`Object.create(proto)` explicitly creates a new object with a specific prototype:
+
+```javascript
+// Define the shared behavior
+const animalProto = {
+    speak() {
+        console.log(this.name + " makes a sound");
+    }
+};
+
+// Create instances that inherit from animalProto
+const dog = Object.create(animalProto);
+dog.name = "Rex";
+dog.type = "dog";
+
+const cat = Object.create(animalProto);
+cat.name = "Whiskers";
+cat.type = "cat";
+
+dog.speak();  // "Rex makes a sound"
+cat.speak();  // "Whiskers makes a sound"
+
+// Both dog and cat inherited the speak method from animalProto
+console.log(Object.getPrototypeOf(dog) === animalProto);  // true
+```
+
+#### The Full Prototype Chain
+
+```javascript
+class Dog {
+    constructor(name) {
+        this.name = name;
+    }
+    bark() {
+        console.log(this.name + " says Woof!");
+    }
+}
+
+const rex = new Dog("Rex");
+
+// The chain:
+// rex → Dog.prototype → Object.prototype → null
+//
+// rex.         hasOwnProperty("name")   → YES, it's on rex
+// rex.         hasOwnProperty("bark")   → NO, it's on Dog.prototype
+// rex.         hasOwnProperty("toString")  → NO, it's on Object.prototype
+// rex.         toString()               → FOUND on Object.prototype, used!
+
+console.log(rex.hasOwnProperty("name"));  // true
+console.log(rex.hasOwnProperty("bark"));  // false
+console.log(rex.hasOwnProperty("toString"));  // false
 console.log(Object.getPrototypeOf(rex) === Dog.prototype);  // true
+console.log(Object.getPrototypeOf(Dog.prototype) === Object.prototype);  // true
 ```
 
-#### The Prototype Chain (Visual)
+#### Inspecting the Prototype Chain
 
+```javascript
+// How to check what's on the prototype
+const arr = [1, 2, 3];
+console.log(Object.getPrototypeOf(arr) === Array.prototype);  // true
+console.log(Array.prototype.includes);  // function — inherited from Array.prototype
+console.log(arr.hasOwnProperty("includes"));  // false — not own property
+console.log(arr.includes(2));  // true — found via prototype chain
+
+// The full chain for an array:
+// arr → Array.prototype → Object.prototype → null
 ```
-rex (instance)       → Dog.prototype         → Object.prototype → null
-  name: "Rex"           bark: function()        toString: function()
-                                                 hasOwnProperty: function()
-```
 
-When you call `rex.toString()`, JavaScript:
-1. Checks `rex` — no `toString` found
-2. Checks `Dog.prototype` — no `toString` found
-3. Checks `Object.prototype` — found! Uses it.
+#### Why This Matters for Teaching OOP
 
-> **Key takeaway:** Classes are a clean syntax for creating objects that share methods via their prototype. Understanding prototypes helps you debug unexpected behavior (like why a method exists on an object even though you didn't define it there).
+Prototypes implement the three key OOP concepts we discussed:
+
+1. **Encapsulation**: Data (properties) is bundled with behavior (methods), just using prototypes instead of private fields
+2. **Inheritance**: The prototype chain IS inheritance. Child instances inherit methods from parent prototypes
+3. **Polymorphism**: Multiple object types can have the same method name that behaves differently based on the instance
+
+So when students ask "Why do prototypes look like classes with inheritance?" — the answer is: **They're not "like" classes; classes ARE just a friendlier syntax for prototypes. Prototypes ARE how JavaScript implements OOP principles.**
+
+> **The Key Insight for Your Students:**
+> - **Class syntax** = the clean, modern way to write OOP (introduced in ES6 2015)
+> - **Prototype system** = the underlying mechanism that makes it all work
+> - They are the **same thing**, just two different ways to write it
+> - Classes were added because developers from Java/Python/etc. found prototype syntax confusing
+> - But underneath, it's all about the prototype chain
 
 ---
 
