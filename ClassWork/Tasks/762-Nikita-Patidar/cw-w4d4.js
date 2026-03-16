@@ -90,8 +90,39 @@ const uniqueUsingReduce = nums.reduce((acc, num)=>{
 console.log("Original Array : ",nums);
 console.log("Array containin unique values (create using reduce() : ");
 console.log(uniqueUsingReduce);
+const numArr=[54,4,7,3,87,2,67,9];
+console.log("unsorted numeric array : ",numArr);
+const sorted =[...numArr].sort((a,b)=>a-b);
+console.log("numeric array after sorting in ascending : " ,sorted);
+const sortt=[...numArr].sort((a,b)=>b-a);
+console.log("numeric array after sorting in descending : ",sortt);
+console.log("Original Array : ",numArr);
 
+//String sorting(alphabetical)
+const words=["potato","zebra","apple","cow","banana","fish"];
+const sortedWord=words.sort();
+console.log("sortedWords : ", sortedWord);
+//Case-insensitive sorting
+const sortedWords=words.sort((a,b)=>a.toLowerCase().localeCompare(b.toLowerCase()));
+console.log("sortedWords : ", sortedWord);
 
+//5. sorting objects
+const students=[
+    {name :"Rajat", marks:78},
+    {name : "Sanjay",marks:64},
+    {name : "riya",marks:89},
+    {name : "akash",marks:75},
+];
+
+//sort by property
+
+//sort in ascending order(numbers)
+const byMarks=[...students].sort((a,b) => b.marks-a.marks);
+console.log("sorted object by marks : ", byMarks);
+
+//sort by name
+const byName=[...students].sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+console.log("Sorted by name : ",byName);
 
 
 
